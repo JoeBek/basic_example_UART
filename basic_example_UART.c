@@ -1,10 +1,10 @@
 /*
  * This is a simple program to introduce UART.
  * Pushing S2 on the BoosterPack toggles the LED1 on the Launchpad at any time.
- * The program gets characters sent from your Laptop and decides whether it is Number, Letter or Other. Then,
+ * The program gets characters sent from your Laptop and decides whether it is a Number, Letter or Other. Then,
  * it sends back N, L or O to the laptop in response.
- * Sending lower case c from laptop changes the baudrate. Currenlty, the only other baudrate implemented is 19200.
- * The system clock for this project is 3MHz and all the UART calcuations are based on this number.
+ * Sending lowercase c from laptop changes the baud rate. Currently, the only other baud rate implemented is 19200.
+ * The system clock for this project is 3MHz and all the UART calculations are based on this number.
  */
 
 #include <ti/devices/msp432p4xx/driverlib/driverlib.h>
@@ -28,7 +28,7 @@ void initializeGPIO();
 
      eUSCI_UART_ConfigV1 uartConfig;
 
-     // Related to baudrate generation and sampling
+     // Related to baud rate generation and sampling
      uartConfig.selectClockSource =  EUSCI_A_UART_CLOCKSOURCE_SMCLK;
      uartConfig.clockPrescalar = 19;        // UCBR   = 19
      uartConfig.firstModReg = 8;            // UCBRF  = 8
@@ -36,7 +36,7 @@ void initializeGPIO();
      uartConfig.overSampling = EUSCI_A_UART_OVERSAMPLING_BAUDRATE_GENERATION; // Oversampling
 
      // Related to other configurations
-     uartConfig.parity = EUSCI_A_UART_NO_PARITY;                  // No praity
+     uartConfig.parity = EUSCI_A_UART_NO_PARITY;                  // No parity
      uartConfig.msborLsbFirst = EUSCI_A_UART_LSB_FIRST;           // LSB First
      uartConfig.numberofStopBits = EUSCI_A_UART_ONE_STOP_BIT;     // One stop bit
      uartConfig.dataLength = EUSCI_A_UART_8_BIT_LEN;              // Data length is 8 bits
@@ -53,7 +53,7 @@ void initializeGPIO();
 
      while (1)
      {
-         // To avoid blocking, we check to see if there is a character to process. In that case, we proceed to receiving it.
+         // To avoid blocking, we check to see if there is a character to process. In that case, we proceed to receive it.
          if (UART_getInterruptStatus (EUSCI_A0_BASE, EUSCI_A_UART_RECEIVE_INTERRUPT_FLAG))
          { //beginning of "got new char"
 
@@ -74,7 +74,7 @@ void initializeGPIO();
              if (UART_getInterruptStatus (EUSCI_A0_BASE, EUSCI_A_UART_TRANSMIT_INTERRUPT_FLAG))
                  UART_transmitData(EUSCI_A0_BASE, tChar);
 
-             // If the character is 'c', it also means to change the baudrarte
+             // If the character is 'c', it also means to change the baud rate
              if (rChar == 'c')
              {
                  switch(baudRate)
